@@ -17,11 +17,16 @@
         <div class="col fs-2">Tasks</div>
         <div class="col-2 fs-2 text-end">Done</div>
       </div>
-    
-      <div class="row mx-1 fs-4 p-1 mb-1 bg-secondary border rounded text-white" v-for="(task,index) in filterTasks" v-bind:key="index">
-        <div class="col" :class=" task.done ? 'delete':'' ">{{task.action}}</div>
-        <div class="col-2 text-end"><input type="checkbox" class="" v-model="task.done"></div>
+
+      <div class="" v-if="filterTasks.length!=0">      
+        <div class="row mx-1 fs-4 p-1 mb-1 bg-secondary border rounded text-white" v-for="(task,index) in filterTasks" v-bind:key="index">
+          <div class="col" :class=" task.done ? 'delete':'' ">{{task.action}}</div>
+          <div class="col-2 text-end"><input type="checkbox" class="" v-model="task.done"></div>
+        </div>
       </div>
+
+
+      <div class="alert alert-warning text-dark" v-else>There are no tasks at the moment</div>
 
       <div class="row mx-1 mt-4 d-flex justify-content-between">
         <button class="col-3 btn btn-danger" v-bind="hideCompleted" @click="hideCompletedItems()">Hide Complete Tasks</button>
@@ -42,12 +47,7 @@ export default{
     name:'Sebastian',
     hideCompleted: false,
     newTask: '',
-    tasks: [
-      {'action': 'Buy new phone','done': false},
-      {'action': 'Buy new shoe','done': true},
-      {'action': 'Wash clothes','done': false},
-      {'action': 'Wash Dishes','done': true}
-    ]
+    tasks: []
   }),
 
   computed: {
