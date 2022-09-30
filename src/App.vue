@@ -72,6 +72,11 @@ export default{
       }
       else {
         this.tasks.push({'action':this.newTask, 'done':false});
+
+        // store the tasks array into local storage using json(can also store with other types:arrays, objects)
+        // JSON.stringify() basically convert array into json format
+        localStorage.setItem('myLocalTasks',JSON.stringify(this.tasks));
+
       }
 
       this.newTask = '';
