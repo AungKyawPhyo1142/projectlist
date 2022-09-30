@@ -29,8 +29,9 @@
       <div class="alert alert-warning text-dark" v-else>There are no tasks at the moment</div>
 
       <div class="row mx-1 mt-4 d-flex justify-content-between">
-        <button class="col-3 btn btn-danger" v-bind="hideCompleted" @click="hideCompletedItems()">Hide Complete Tasks</button>
-        <button class="col-3 btn btn-primary"  v-bind="hideCompleted" @click="showCompletedItems()">Show Complete Tasks</button>
+        <button class="col-3 btn btn-warning" v-bind="hideCompleted" @click="hideCompletedItems()">Hide Completed Tasks</button>
+        <button class="col-3 btn btn-primary"  v-bind="hideCompleted" @click="showCompletedItems()">Show Completed Tasks</button>
+        <button class="col-3 btn btn-danger"  v-bind="hideCompleted" @click="deleteCompletedItems()">Delete Completed Tasks</button>
       </div>
 
     </div>
@@ -59,12 +60,23 @@ export default{
   },
 
   methods: {
+
     hideCompletedItems(){
       this.hideCompleted=true;
     },
+
     showCompletedItems(){
       this.hideCompleted=false;
     },
+
+    deleteCompletedItems(){
+
+      this.tasks = this.tasks.filter((item)=> !item.done);
+
+      // delete from local storage,
+      this.setItemToLocalStorage();
+    },
+
     addItems(){
 
       if(this.newTask === ''){
@@ -75,12 +87,25 @@ export default{
 
         // store the tasks array into local storage using json(can also store with other types:arrays, objects)
         // JSON.stringify() basically convert array into json format
-        localStorage.setItem('myLocalTasks',JSON.stringify(this.tasks));
-
+        this.setItemToLocalStorage();
       }
 
       this.newTask = '';
+    },
+
+    setItemToLocalStorage(){
+      localStorage.setItem('myLocalTasks',JSON.stringify(this.tasks));
     }
+
+  },
+  
+  mounted(){
+    let data = localStorage.getItem('myLocalTasks');
+   
+    if(data!=null){
+      this.tasks = JSON.parse(data);
+    }
+
   }
 
 }
